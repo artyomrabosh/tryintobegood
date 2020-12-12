@@ -74,26 +74,6 @@ return Solution
 
 ```
 
-## Fizz Buzz
-
-https://leetcode.com/problems/fizz-buzz/
-
-```python
-    mod3 = (i + 1) % 3
-    mod5 = (i + 1) % 5
-    if(mod3 == 0 and mod5 == 0):
-        print("1")
-        Solution.append("FizzBuzz")
-    elif(mod5 == 0):
-        Solution.append("Buzz")
-    elif(mod3 == 0):
-        Solution.append("Fizz")
-    else:
-        Solution.append("{}".format(i+1))
-return Solution
-
-```
-
 ## Base 7
 
 https://leetcode.com/problems/base-7/
@@ -119,12 +99,15 @@ return solution[::-1]
 https://leetcode.com/problems/fibonacci-number/
 
 ```python
-f(self, N):
-if N == 0:
-    return 0
-if N == 1:
-    return 1
-return (self.f(N - 1) + self.f(N - 2))
+def fib(self, N: int) -> int:
+   return self.f(N)
+   
+def f(self, N):
+    if N == 0:
+        return 0
+    if N == 1:
+        return 1
+    return (self.f(N - 1) + self.f(N - 2))
 
 ```
 
