@@ -11,6 +11,8 @@
 https://leetcode.com/problems/valid-anagram/
 
 ```python
+letters={}
+newletters={}
 for i in s:
     if i in letters:
         letters[i] += 1
@@ -35,7 +37,7 @@ else:
 https://leetcode.com/problems/reverse-string/
 
 ```python
-
+s.reverse()
 ```
 
 ## Reverse Vowels of a String
@@ -43,6 +45,8 @@ https://leetcode.com/problems/reverse-string/
 https://leetcode.com/problems/reverse-vowels-of-a-string/
 
 ```python
+s=list(s)
+left, right = 0, len(s)-1
 while left < right:
     while left < right and s[left].lower() not in "aeoui":
         left += 1
@@ -60,6 +64,8 @@ return "".join(s)
 https://leetcode.com/problems/reverse-words-in-a-string-iii/
 
 ```python
+old = s.split(" ")
+new = ""
 for i in old:
     new += i[::-1]+" "
 return(new[:-1])
@@ -71,6 +77,7 @@ return(new[:-1])
 https://leetcode.com/problems/to-lower-case/
 
 ```python
+return str.lower()
 
 ```
 
