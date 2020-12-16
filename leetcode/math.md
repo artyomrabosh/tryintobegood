@@ -13,6 +13,8 @@
 https://leetcode.com/problems/reverse-integer/
 
 ```python
+new_x = 0
+if x < 0:
     x = -1 * x
     while x > 0:
         new_x *= 10
@@ -38,6 +40,8 @@ else:
 https://leetcode.com/problems/palindrome-number/
 
 ```python
+x = str(x)
+num = -1
 isPalindrome = 1
 print(x[0])
 for i in range(len(x)):
@@ -56,7 +60,6 @@ else:
 https://leetcode.com/problems/fizz-buzz/
 
 ```python
-
 Solution = []
 for i in range(n):
     mod3 = (i + 1) % 3
@@ -79,6 +82,8 @@ return Solution
 https://leetcode.com/problems/base-7/
 
 ```python
+if num == 0:
+    return "0"
 solution = ""
 if(num < 0):
     num = num*- 1
@@ -116,6 +121,7 @@ def f(self, N):
 https://leetcode.com/problems/largest-perimeter-triangle/
 
 ```python
+A.sort(reverse = True)
 i = 0
 while i < len(A) - 2:
     if A[i] < A[i + 1] + A[i + 2]:
@@ -131,11 +137,10 @@ return 0
 https://leetcode.com/problems/sqrtx/
 
 ```python
-class Solution:
-    def mySqrt(self, x: int) -> int:
-        num = 1
-        while(num * num <= x):
-            num += 1
+def mySqrt(self, x: int) -> int:
+    num = 1
+    while(num * num <= x):
+        num += 1
     return num - 1
 
 ```
