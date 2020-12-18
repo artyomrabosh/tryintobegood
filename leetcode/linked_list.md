@@ -5,6 +5,7 @@
 + [Palindrome Linked List](#palindrome-linked-list)
 + [Merge Two Sorted Lists](#merge-two-sorted-lists)
 + [Remove Nth Node From End of List](#remove-nth-node-from-end-of-list)
++ [Intersection of Two Linked Lists](#intersection-of-two-linked-lists)
 <!---->
 ## Reverse Linked List
 
@@ -119,6 +120,27 @@ while (counter<n):
     counter+=1
 first.next=second.next
 return head
+
+```
+
+## Intersection of Two Linked Lists
+
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+```python
+Intersection = None
+A, B = headA, headB
+if headA is None or headB is None: return None
+while True:
+    while A.next != Intersection or B.next != Intersection:
+        if A.next != Intersection: A = A.next
+        if B.next != Intersection: B = B.next
+        if (A is None or B is None): return Intersection
+    if A == B:
+        Intersection = A
+        A, B = headA, headB
+    else:
+        return Intersection
 
 ```
 
