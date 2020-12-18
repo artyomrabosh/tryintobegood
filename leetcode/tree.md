@@ -1,14 +1,21 @@
 # TREE
 
-+ [Maximum Depth of Binary Tree](#maximum-depth-of-binary-tree)
++ [Binary Tree Inorder Traversal](#binary-tree-inorder-traversal)
 <!---->
-## Maximum Depth of Binary Tree
+## Binary Tree Inorder Traversal
 
-https://leetcode.com/problems/maximum-depth-of-binary-tree/
+https://leetcode.com/problems/binary-tree-inorder-traversal/
 
 ```python
-if root is None: return 0
-return max(self.maxDepth(root.left),self.maxDepth(root.right))+1
+if(node is None):
+    return
+self.traverse(node.left,order)
+order.append(node.val)
+self.traverse(node.right,order)
+inorderTraversal(self, root: TreeNode) -> List[int]:
+res=[]
+self.traverse(root,res)
+return res
 
 ```
 
