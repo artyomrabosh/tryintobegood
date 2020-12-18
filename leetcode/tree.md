@@ -1,40 +1,20 @@
 # TREE
 
-+ [Binary Search Tree Iterator](#binary-search-tree-iterator)
++ [Symmetric Tree](#symmetric-tree)
 <!---->
-## Binary Search Tree Iterator
+## Symmetric Tree
 
-https://leetcode.com/problems/binary-search-tree-iterator/
+https://leetcode.com/problems/symmetric-tree/
 
 ```python
-
-    root=[]
-    index=-1
-    def __init__(self, root: TreeNode):
-        q=[root]
-        res=[]
-        while(q != []):
-            for node in q:
-                res.append(node.val)
-            for node in q[:]:
-                if(node.left is not None): 
-                    q.append(node.left)
-                if(node.right is not None):
-                    q.append(node.right)
-                q.remove(node)
-        res.sort()
-        res.append(None)
-        self.root=res
-        print(self.root)
-        
-    def next(self) -> int:
-        if self.root[self.index+1] is None: return None
-        self.index+=1
-        return self.root[self.index]
-
-    def hasNext(self) -> bool:
-        if(self.root[self.index+1] is not None): return True
-        else: return False
+def isSymmetric(self, root: TreeNode) -> bool:
+    return self.is_mirror(root, root)
+def is_mirror(self, r1, r2):
+    if r1 is None and r2 is None:
+        return True
+    if r1 is not None and r2 is not None:
+        if r1.val == r2.val:
+            return (self.is_mirror(r1.left, r2.right) and self.is_mirror(r1.right, r2.left))
 
 ```
 
