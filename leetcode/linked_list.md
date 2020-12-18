@@ -5,6 +5,7 @@
 + [Palindrome Linked List](#palindrome-linked-list)
 + [Merge Two Sorted Lists](#merge-two-sorted-lists)
 + [Remove Nth Node From End of List](#remove-nth-node-from-end-of-list)
++ [Linked List Cycle](#linked-list-cycle)
 <!---->
 ## Reverse Linked List
 
@@ -119,6 +120,21 @@ while (counter<n):
     counter+=1
 first.next=second.next
 return head
+
+```
+
+## Linked List Cycle
+
+https://leetcode.com/problems/linked-list-cycle/
+
+```python
+if head is None: return False
+fast, slow = head.next, head
+if fast is None: return False
+while fast!=slow :
+    if(fast.next is None or fast.next.next is None): return False
+    fast, slow = fast.next.next, slow.next
+return True
 
 ```
 
