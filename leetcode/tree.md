@@ -1,26 +1,17 @@
 # TREE
 
-+ [Kth Smallest Element in a BST](#kth-smallest-element-in-a-bst)
++ [Validate Binary Search Tree](#validate-binary-search-tree)
 <!---->
-## Kth Smallest Element in a BST
+## Validate Binary Search Tree
 
-https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+https://leetcode.com/problems/validate-binary-search-tree/
 
 ```python
-q=[root]
-res=[]
-while(q != []):
-    for node in q:
-        res.append(node.val)
-    for node in q[:]:
-        if(node.left is not None):
-            q.append(node.left)
-        if(node.right is not None):
-            q.append(node.right)
-        q.remove(node)
-res.sort()
-print(res)
-return res[k-1]
+def dfs(node, low, high):
+    if not node: return True
+    if not low < node.val < high: return False
+    return dfs(node.left, low, node.val) and dfs(node.right, node.val, high)
+return dfs(root, -float("inf"), float("inf"))
 
 ```
 
