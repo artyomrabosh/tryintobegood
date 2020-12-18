@@ -5,6 +5,7 @@
 + [Palindrome Linked List](#palindrome-linked-list)
 + [Merge Two Sorted Lists](#merge-two-sorted-lists)
 + [Remove Nth Node From End of List](#remove-nth-node-from-end-of-list)
++ [Sort List](#sort-list)
 <!---->
 ## Reverse Linked List
 
@@ -120,5 +121,25 @@ while (counter<n):
 first.next=second.next
 return head
 
+```
+
+## Sort List
+
+https://leetcode.com/problems/sort-list/
+
+```python
+node = head
+arr = []
+while node:
+    arr.append(node.val)
+    node = node.next
+arr.sort()
+i = 0
+node = head
+while node:
+    node.val = arr[i]
+    node=node.next
+    i += 1
+return head
 ```
 
