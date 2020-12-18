@@ -1,40 +1,26 @@
 # TREE
 
-+ [Binary Search Tree Iterator](#binary-search-tree-iterator)
++ [Kth Smallest Element in a BST](#kth-smallest-element-in-a-bst)
 <!---->
-## Binary Search Tree Iterator
+## Kth Smallest Element in a BST
 
-https://leetcode.com/problems/binary-search-tree-iterator/
+https://leetcode.com/problems/kth-smallest-element-in-a-bst/
 
 ```python
-
-    root=[]
-    index=-1
-    def __init__(self, root: TreeNode):
-        q=[root]
-        res=[]
-        while(q != []):
-            for node in q:
-                res.append(node.val)
-            for node in q[:]:
-                if(node.left is not None): 
-                    q.append(node.left)
-                if(node.right is not None):
-                    q.append(node.right)
-                q.remove(node)
-        res.sort()
-        res.append(None)
-        self.root=res
-        print(self.root)
-        
-    def next(self) -> int:
-        if self.root[self.index+1] is None: return None
-        self.index+=1
-        return self.root[self.index]
-
-    def hasNext(self) -> bool:
-        if(self.root[self.index+1] is not None): return True
-        else: return False
+q=[root]
+res=[]
+while(q != []):
+    for node in q:
+        res.append(node.val)
+    for node in q[:]:
+        if(node.left is not None):
+            q.append(node.left)
+        if(node.right is not None):
+            q.append(node.right)
+        q.remove(node)
+res.sort()
+print(res)
+return res[k-1]
 
 ```
 
