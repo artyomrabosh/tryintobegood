@@ -5,6 +5,7 @@
 + [Palindrome Linked List](#palindrome-linked-list)
 + [Merge Two Sorted Lists](#merge-two-sorted-lists)
 + [Remove Nth Node From End of List](#remove-nth-node-from-end-of-list)
++ [Reorder List](#reorder-list)
 <!---->
 ## Reverse Linked List
 
@@ -119,6 +120,35 @@ while (counter<n):
     counter+=1
 first.next=second.next
 return head
+
+```
+
+## Reorder List
+
+https://leetcode.com/problems/reorder-list/
+
+```python
+if head is None: return None
+node = head
+arr = []
+while node:
+    arr.append(node)
+    node = node.next
+counter = head
+temp = [i.val for i in arr]
+i = 0
+first, last = 0, len(arr) - 1
+while first != last:
+    if(i % 2 == 0):
+        print(first)
+        arr[i].val = temp[first]
+        first += 1
+    else:
+        print(last)
+        arr[i].val = temp[last]
+        last -= 1
+    i += 1
+arr[i].val = temp[first]
 
 ```
 
