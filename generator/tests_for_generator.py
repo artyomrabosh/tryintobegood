@@ -22,7 +22,8 @@ class TestSource(unittest.TestCase):
         md = MdSource(*read_txt('in.txt'))
         expect_code = """```python
 s.reverse()
-```"""
+```
+"""
         self.assertEqual(md.get_md_code(), expect_code)
 
     def test_task(self):
@@ -34,6 +35,7 @@ https://leetcode.com/problems/reverse-string/
 ```python
 s.reverse()
 ```
+
 """
         self.assertEqual(md.get_md_task(), expect_task)
 
@@ -47,9 +49,7 @@ class TestWriting(unittest.TestCase):
 https://leetcode.com/problems/reverse-string/
 ```python
 s.reverse()
-```
-
-"""
+```"""
         md = MdSource(*read_txt('in.txt'))
         s = read_md('out.md')
         s = prepare_data_to_write(md, s)
