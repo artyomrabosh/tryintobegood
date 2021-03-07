@@ -3,7 +3,7 @@ import json
 
 params = {"state": "open",}
 headers = {
-  'Authorization': f'token dea9e8c41e8c6032bdd92946f53f3667c4ef89b1',
+  'Authorization': f'token b06969051a5e38d40b6d9bd49d0d619798a57aab',
   'accept' : 'application/vnd.github.v3+json',
   'Content-Type' : 'application/json'
 }
@@ -17,18 +17,12 @@ data = {
   'commit_id' : '6f3ccdb0f8941f66c37342d5ac34c3c1c8010d8b'
 }
 
+
 def get_pulls(name):
   link = "https://api.github.com/repos/{}/python_au/pulls".format(name)
+
   pulls_req=requests.get(link, headers=headers, params=params)
   return pulls_req.json()
-
-
-def get_names(pull):
-  names=[pull['title']]
-  commits=requests.get(pull['commits_url'], headers=headers, params=params)
-  for commit in commits.json():
-    names.append(commit['commit']['message'])
-  return check_names(names)
 
 
 def check_names(names):
@@ -50,19 +44,27 @@ def review(pull):
   commit = requests.get(pull['url']+'/files',headers=headers,params=params).json()[0]
   data['path'] = commit['filename']
   data['commit_id'] = pull['head']['sha']
-  print(data)
-  print(requests.post(pull['url']+'/comments', data=json.dumps(data).encode('utf8'),headers=headers).json())
+  requests.post(pull['url']+'/comments', data=json.dumps(data).encode('utf8'),headers=headers).json()
   pass
+
+
+def get_all_commits(pull):
+  commits = requests.get(pull['commits_url'], headers=headers, params=params)
+  return commits.json()
+
+
+def verify(pull):
+  names = [pull['title']]
+  for commit in get_all_commits(pull):
+    names.append(commit['commit']['message'])
+  if check_names(names) is False:
+    review(pull)
 
 
 def main():
   name = input()
   for pull in get_pulls(name):
-    if(get_names(pull)):
-      print("good")
-    else:
-      print("bad")
-      review(pull)
+    verify(pull)
 
 
 main()
