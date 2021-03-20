@@ -4,7 +4,7 @@ import sys
 
 params = {"state": "open"}
 headers = {
-  'Authorization': f'token 0ce2e851e3dc8b5371fbc5e10342450c49e31527',
+  'Authorization': f'token 9b14777987099a9943e26ebe3736a1bd82d8b2cf',
   'accept' : 'application/vnd.github.v3+json',
   'Content-Type' : 'application/json'
 }
@@ -25,19 +25,18 @@ def get_pulls(name):
     return pulls_req.json()
 
 
-def check_names(names):
-    iscorrect = True
-    for name in names:
-        parts = name.split()
-        parts[0] = parts[0].split("-")
-        if len(parts) != 3 or len(parts[0]) != 2:
-          iscorrect = False
-          break
-        if parts[0][0] not in heads:
-          iscorrect = False
-        if parts[0][1] not in groups:
-          iscorrect = False
-    return iscorrect
+def check_name(name):
+    parts = name.split()
+    parts[0] = parts[0].split("-")
+    if len(parts) != 3 or len(parts[0]) != 2:
+        return False
+    if parts[0][0] not in heads:
+        return False
+    if parts[0][1] not in groups:
+        return False
+    if parts[1] not in actions:
+        return False
+    return True
 
 
 def isReviewed(pull):
@@ -54,7 +53,7 @@ def review(pull):
     commit = requests.get(pull['url']+'/files',headers=headers,params=params).json()[0]
     data['path'] = commit['filename']
     data['commit_id'] = pull['head']['sha']
-    requests.post(pull['url']+'/comments', data=json.dumps(data).encode('utf8'),headers=headers).json()
+    #requests.post(pull['url']+'/comments', data=json.dumps(data).encode('utf8'),headers=headers).json()
   pass
 
 
@@ -65,15 +64,19 @@ def get_all_commits(pull):
 
 def verify(pull):
     names = [pull['title']]
+    print(names)
     for commit in get_all_commits(pull):
         names.append(commit['commit']['message'])
-    if check_names(names) is False:
-        review(pull)
+    for name in names:
+        if not check_name(name):
+            review(pull)
+            break
 
 
 def main():
     username = input()
     for pull in get_pulls(username):
+        print(pull)
         verify(pull)
 
 
