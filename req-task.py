@@ -1,5 +1,6 @@
 import requests
 import json
+import sys
 
 params = {"state": "open"}
 headers = {
@@ -76,7 +77,8 @@ def main():
         verify(pull)
 
 
-main()
+if __name__ == '__main__':
+    main()
 
 
 
