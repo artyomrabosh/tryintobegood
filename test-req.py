@@ -12,8 +12,6 @@ class TestRequestTask(unittest.TestCase):
         for name in test_cases.names['name']:
             res.append(request.check_name(name))
         self.assertEqual(test_cases.names['res'], res)
-    def test_isreviewed(self):
-
 
 
 if __name__ == '__main__':
