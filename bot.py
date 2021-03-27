@@ -3,6 +3,8 @@ import datetime
 import config
 import main
 import sqlite3
+import schedule
+import update_timetable as update
 
 bot = telebot.TeleBot(config.TOKEN)
 keyboard = telebot.types.ReplyKeyboardMarkup()
@@ -10,7 +12,8 @@ keyboard.row('/lesson', '/time')
 group = 'lol'
 db=sqlite3.connect("users.db", check_same_thread=False)
 sql=db.cursor()
-
+interval = 3
+schedule.every(interval).days.do(update.update_timetable())
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
