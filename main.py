@@ -2,8 +2,9 @@ import openpyxl
 import datetime
 import config
 
-groups=config.groups
+groups = config.groups
 channels = config.channels
+
 
 def init():
     book = openpyxl.load_workbook(filename='timetable.xlsx')
@@ -32,23 +33,26 @@ def make_timetable(sheet):
 
 def user_input(group):
     return {
-        'group' : group,
-        'day' : (datetime.datetime.utcnow()+datetime.timedelta(hours=3)).weekday()+1,
-        'time' : int('{}'.format(datetime.datetime.utcnow() + datetime.timedelta(hours=3))[11:-13])
+        'group': group,
+        'day': (datetime.datetime.utcnow()+datetime.timedelta(hours=3)).weekday()+1,
+        'time': int('{}'.format(datetime.datetime.utcnow() + datetime.timedelta(hours=3))[11:-13])
     }
+
+
 def distant(lesson):
-    answer=''
-    if (lesson.find('Канал') != -1):
+    answer = ''
+    if lesson.find('Канал') != -1:
         number = int(lesson[lesson.find('№') + 1])
         answer = 'Канал: {} '.format(channels[number - 1])
     return answer
 
+
 def main(group):
-    user=user_input(group)
-    answer=[]
+    user = user_input(group)
+    answer = []
     for i in range(2, len(table)):
         line=groups[user['group']]
-        if user['time']>18 and user['day'] == 6 or user['day'] == 7:
+        if user['time'] > 18 and user['day'] == 6 or user['day'] == 7:
             answer.append('weekend')
             answer.append('next lesson: ')
             while sheet[line][i].value is None:
@@ -62,7 +66,7 @@ def main(group):
             answer.append(sheet[3][i].value)
             answer.append(distant(sheet[line][i].value))
             while sheet[groups[user['group']]][i+1].value is None:
-                i=i+1
+                i = i+1
             if table[i][1] > user['day']:
                 answer.append('next lesson tomorrow:')
             else:
@@ -75,6 +79,5 @@ def main(group):
         answer.append('no more lessons today')
     return answer
 
-sheet=init()
-table=make_timetable(sheet)
-unit=[4,5,6,7,9,13,14,15]
+sheet = init()
+table = make_timetable(sheet)

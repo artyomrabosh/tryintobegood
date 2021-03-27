@@ -21,5 +21,15 @@ groups = {
     '201': 13,
     '202/1': 14,
     '202/2': 15,
-
+}
+timetable_url = "https://spbau.ru/assets/documents/%D0%B1%D0%B0%D0%BA%D0%B0%D0%BB%D0%B0%D0%B2%D1%80%D1%8B%20%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B8%D1%81%D1%82%D1%80%D1%8B/timetables/2-semestr-2020-2021-ug-dlya-sajta-{}.pdf"
+key_pdftables = '6nrd3lq10ebw'
+secret_key = 'secret_key_e2beb0d8d8df71f2006056f4896fec37_WNqyn4961b861f6f5768ef6163d4c7cfc8280'
+api_key_lightpdf='WXSGGVM4UYIS5LFQ84RR'
+auth_header_lightpdf ={
+    'X-API-KEY': '{}'.format(api_key_lightpdf)
+}
+task_header_lightpdf = {
+    'X-API-KEY': '{}'.format(api_key_lightpdf),
+    "Content-Type": "application/x-www-form-urlencoded"
 }
