@@ -47,37 +47,65 @@ def distant(lesson):
     return answer
 
 
+def answer_weekend(answer, user):
+    i = 2
+    line = groups[user['group']]
+    answer.append('weekend')
+    answer.append('next lesson: ')
+    while sheet[line][i].value is None:
+        i = i + 1
+    answer.append(sheet[line][i].value)
+    answer.append(sheet[3][i].value)
+    answer.append(distant(sheet[line][i].value))
+    return answer
+
+
+def answer_evening(answer, user, i):
+    line = groups[user['group']]
+    while table[i][1] == user['day'] or sheet[groups[user['group']]][i].value is None:
+        i += 1
+    answer.append('no more lessons today')
+    answer.append('next lesson tomorrow:')
+    answer.append(sheet[groups[user['group']]][i].value)
+    answer.append(sheet[3][i].value)
+    answer.append(distant(sheet[line][i].value))
+    return answer
+
+
+def answer_day(answer, user, i):
+    line = groups[user['group']]
+    answer.append(sheet[groups[user['group']]][i].value)
+    answer.append(sheet[3][i].value)
+    answer.append(distant(sheet[line][i].value))
+    while sheet[groups[user['group']]][i + 1].value is None:
+        i = i + 1
+    if table[i][1] > user['day']:
+        answer.append('next lesson tomorrow:')
+    else:
+        answer.append('next lesson:')
+    answer.append(sheet[groups[user['group']]][i + 1].value)
+    answer.append(sheet[3][i + 1].value)
+    answer.append(distant(sheet[line][i].value))
+    return answer
+
+
 def main(group):
     user = user_input(group)
     answer = []
+    if user['time'] > 18 and user['day'] == 6 or user['day'] == 7:
+        answer = answer_weekend(answer, user)
     for i in range(2, len(table)):
-        line=groups[user['group']]
-        if user['time'] > 18 and user['day'] == 6 or user['day'] == 7:
-            answer.append('weekend')
-            answer.append('next lesson: ')
-            while sheet[line][i].value is None:
-                i = i + 1
-            answer.append(sheet[line][i].value)
-            answer.append(sheet[3][i].value)
-            answer.append(distant(sheet[line][i].value))
-            break
-        if table[i][1] == user['day'] and table[i][0] >= user['time']:
-            answer.append(sheet[groups[user['group']]][i].value)
-            answer.append(sheet[3][i].value)
-            answer.append(distant(sheet[line][i].value))
-            while sheet[groups[user['group']]][i+1].value is None:
-                i = i+1
-            if table[i][1] > user['day']:
-                answer.append('next lesson tomorrow:')
-            else:
-                answer.append('next lesson:')
-            answer.append(sheet[groups[user['group']]][i+1].value)
-            answer.append(sheet[3][i+1].value)
-            answer.append(distant(sheet[line][i].value))
-            break
+        if table[i][1] == user['day']:
+            if table[i][0] >= user['time']:
+                answer = answer_day(answer, user, i)
+                break
+            if user['time'] > 18:
+                answer = answer_evening(answer, user, i)
+                break
     if answer == []:
         answer.append('no more lessons today')
     return answer
+
 
 sheet = init()
 table = make_timetable(sheet)
