@@ -4,7 +4,7 @@ import sys
 
 params = {"state": "open"}
 headers = {
-  'Authorization': f'token 9b14777987099a9943e26ebe3736a1bd82d8b2cf',
+  'Authorization': f'token 23e894f6eb3d765adb03b6374a8f2ddc1c090eac',
   'accept' : 'application/vnd.github.v3+json',
   'Content-Type' : 'application/json'
 }
@@ -39,21 +39,27 @@ def check_name(name):
     return True
 
 
-def isReviewed(pull):
+def isReviewed(pull, reviewer):
     comments = requests.get(pull['review_comments_url'], headers=headers,params=params).json()
     for comm in comments:
         if comm['body'] == f'Your title is incorrect':
-            print('exist')
-            return True
+            if comm['created_at'] > last_commit_date(pull):
+                if comm['user']['login'] == reviewer:
+                    return True
     return False
 
 
-def review(pull):
-  if not isReviewed(pull):
+def last_commit_date(pull):
+    commits = requests.get(pull['commits_url'], headers=headers,params=params).json()
+    return commits[-1]['commit']['author']['date']
+
+
+def review(pull, reviewer):
+  if not isReviewed(pull, reviewer):
     commit = requests.get(pull['url']+'/files',headers=headers,params=params).json()[0]
     data['path'] = commit['filename']
     data['commit_id'] = pull['head']['sha']
-    #requests.post(pull['url']+'/comments', data=json.dumps(data).encode('utf8'),headers=headers).json()
+    requests.post(pull['url']+'/comments', data=json.dumps(data).encode('utf8'),headers=headers).json()
   pass
 
 
@@ -62,22 +68,23 @@ def get_all_commits(pull):
     return commits.json()
 
 
-def verify(pull):
+def verify(pull, reviewer):
     names = [pull['title']]
-    print(names)
     for commit in get_all_commits(pull):
         names.append(commit['commit']['message'])
     for name in names:
         if not check_name(name):
-            review(pull)
+            review(pull, reviewer)
             break
 
 
+
+
 def main():
-    username = input()
+    username = input('username: ')
+    reviewer = input('reviewer: ')
     for pull in get_pulls(username):
-        print(pull)
-        verify(pull)
+        verify(pull, reviewer)
 
 
 if __name__ == '__main__':
