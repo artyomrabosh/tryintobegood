@@ -20,6 +20,7 @@ def encode_callback(cb_dict):
 
 
 def upload_pdf(path, auth_res):
+    print("uploading pdf to service")
     data = {
         "id": auth_res['data']['access_id'],
         'path': path,
@@ -40,6 +41,7 @@ def upload_pdf(path, auth_res):
 
 
 def create_task(uploaded):
+    print("converting pdf to xlsx")
     files = [{
         "file_id": uploaded['data']['resource']['resource_id'],
         "password": ""
@@ -57,10 +59,11 @@ def create_task(uploaded):
 
 
 def download_excel(task_id):
+    print("downloading xlsx")
     task_link = "http://api.lightpdf.com/api/tasks/{}".format(task_id)
     resp = requests.get(task_link, headers=cfg.auth_header_lightpdf).json()
     file_link = resp['data']['target_file']['url']
-    f = open("timetable.xlsx", 'wb')
+    f = open("commands/timetable.xlsx", 'wb')
     f.write(requests.get(file_link).content)
     f.close()
     print("good job!")
@@ -69,19 +72,17 @@ def download_excel(task_id):
 
 def update_timetable():
     for num in range(1, 10):
+        print("downloading latest timetable")
         try:
             logo = urllib.request.urlopen(
                 cfg.timetable_url.format(num)).read()
-            f = open("try.pdf", "wb")
+            f = open("../try.pdf", "wb")
             f.write(logo)
             f.close()
         except urllib.error.HTTPError:
             print('cant {}'.format(num))
     auth = auth_light()
-    uploaded = upload_pdf('try.pdf', auth.json())
+    uploaded = upload_pdf('../try.pdf', auth.json())
     task = create_task(uploaded)
     time.sleep(7)
     download_excel(task['data']['task_id'])
-
-
-update_timetable()

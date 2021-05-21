@@ -7,7 +7,7 @@ channels = config.channels
 
 
 def init():
-    book = openpyxl.load_workbook(filename='timetable.xlsx')
+    book = openpyxl.load_workbook(filename='commands/timetable.xlsx')
     sheet = book['Table 1']
     return sheet
 
@@ -39,8 +39,9 @@ def user_input(group):
     }
 
 
-def distant(lesson):
-    answer = ''
+def distant(answer, lesson):
+    if lesson is None:
+        return answer
     if lesson.find('Канал') != -1:
         number = int(lesson[lesson.find('№') + 1])
         answer = 'Канал: {} '.format(channels[number - 1])
@@ -66,7 +67,7 @@ def answer_evening(answer, user, i):
         i += 1
     answer.append('no more lessons today')
     answer.append('next lesson tomorrow:')
-    answer.append(sheet[groups[user['group']]][i].value)
+    answer.append(sheet[line][i].value)
     answer.append(sheet[3][i].value)
     answer.append(distant(sheet[line][i].value))
     return answer
@@ -74,18 +75,18 @@ def answer_evening(answer, user, i):
 
 def answer_day(answer, user, i):
     line = groups[user['group']]
-    answer.append(sheet[groups[user['group']]][i].value)
+    answer.append(sheet[line][i].value)
     answer.append(sheet[3][i].value)
-    answer.append(distant(sheet[line][i].value))
+    answer = distant(answer, sheet[line][i].value)
     while sheet[groups[user['group']]][i + 1].value is None:
         i = i + 1
     if table[i][1] > user['day']:
         answer.append('next lesson tomorrow:')
     else:
         answer.append('next lesson:')
-    answer.append(sheet[groups[user['group']]][i + 1].value)
+    answer.append(sheet[line][i + 1].value)
     answer.append(sheet[3][i + 1].value)
-    answer.append(distant(sheet[line][i].value))
+    answer = distant(answer, sheet[line][i].value)
     return answer
 
 

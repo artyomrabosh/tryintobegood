@@ -1,5 +1,6 @@
 import unittest
-import main
+from commands import main
+
 tests = {
     "Дискрет. матем.(лекция) Новиков Ф.А. (Канал №1 ) 16:00": 'Канал: {} '.format(main.channels[0]),
     "Алгебра (пр.) 1,5 пары Афанасьева С.С. (Канал №3)": 'Канал: {} '.format(main.channels[2]),

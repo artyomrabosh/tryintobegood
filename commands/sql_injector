@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 """
 
-db=sqlite3.connect("users.db", check_same_thread=False)
+db=sqlite3.connect("../users.db", check_same_thread=False)
 sql=db.cursor()
 
 #delete_all(sql)
