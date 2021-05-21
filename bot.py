@@ -3,17 +3,19 @@ import datetime
 import config
 import main
 import sqlite3
+import random
 import schedule
-import update_timetable as update
+import kakoysegodnyaprazdnik
+#import update_timetable as update
 
 bot = telebot.TeleBot(config.TOKEN)
 keyboard = telebot.types.ReplyKeyboardMarkup()
-keyboard.row('/lesson', '/time')
-group = 'lol'
-db=sqlite3.connect("users.db", check_same_thread=False)
-sql=db.cursor()
+keyboard.row('/lesson', '/time', '/kakoysegodnyaprazdnik?', '/wannaslide')
+group = 'blank'
+db = sqlite3.connect("users.db", check_same_thread=False)
+sql = db.cursor()
 
-schedule.every(3).days.do(update.update_timetable())    # раз в 3 дня обновляет расписание
+#schedule.every(3).days.do(update.update_timetable())    # раз в 3 дня обновляет расписание
 
 
 @bot.message_handler(commands=['start'])
@@ -50,19 +52,35 @@ def timing(message):
     bot.send_message(message.chat.id, 'time: {}'.format(timer[:-10]))
 
 
+@bot.message_handler(commands=['kakoysegodnyaprazdnik?'])
+def holidays(message):
+    holidays = kakoysegodnyaprazdnik.get_holidays()
+    for day in holidays:
+        bot.send_message(message.chat.id, day)
+
+@bot.message_handler(commands=['wannaslide'])
+def slides(message):
+    slide = "slides/00{}{}.jpg".format(random.randrange(0,2), random.randrange(0,9))
+    f = open(slide, 'rb')
+    bot.send_photo(message.chat.id, f)
+    print(slide)
+
+
 @bot.message_handler(commands=['lesson'])
 def lesson(message):
     answer = []
     user_id = message.from_user.id
     for item in sql.execute("""SELECT * FROM users"""):
-        if item[0] == '{}'.format(user_id):             # смотрим группу пользователя
+        if item[0] == user_id:             # смотрим группу пользователя
             answer = main.main(item[1])
             break
     for item in answer:
-        if item is not None:
-            bot.send_message(message.chat.id, item)
-        else:
-            bot.send_message(message.chat.id, 'no lessons :)')
+        if item != "":
+            if item is not None:
+                bot.send_message(message.chat.id, item)
+            else:
+                bot.send_message(message.chat.id, 'no lessons :)')
+
 
 
 bot.polling()
