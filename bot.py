@@ -14,7 +14,7 @@ group = 'blank'
 db = sqlite3.connect("users.db", check_same_thread=False)
 sql = db.cursor()
 
-#schedule.every(3).days.do(update_timetable.update_timetable())    # раз в 3 дня обновляет расписание
+schedule.every(3).days.do(update_timetable.update_timetable())    # раз в 3 дня обновляет расписание
 
 
 @bot.message_handler(commands=['start'])
