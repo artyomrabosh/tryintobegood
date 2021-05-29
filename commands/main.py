@@ -6,6 +6,11 @@ groups = config.groups
 channels = config.channels
 
 
+sheet_time_row = 3
+first_column = 2
+time_row = 0
+day_row = 1
+
 def init():
     book = openpyxl.load_workbook(filename='commands/timetable.xlsx')
     sheet = book['Table 1']
@@ -49,14 +54,14 @@ def distant(answer, lesson):
 
 
 def answer_weekend(answer, user):
-    i = 2
+    i = first_column
     line = groups[user['group']]
     answer.append('weekend')
     answer.append('next lesson: ')
     while sheet[line][i].value is None:
         i = i + 1
     answer.append(sheet[line][i].value)
-    answer.append(sheet[3][i].value)
+    answer.append(sheet[sheet_time_row][i].value)
     answer.append(distant(sheet[line][i].value))
     return answer
 
@@ -68,7 +73,7 @@ def answer_evening(answer, user, i):
     answer.append('no more lessons today')
     answer.append('next lesson tomorrow:')
     answer.append(sheet[line][i].value)
-    answer.append(sheet[3][i].value)
+    answer.append(sheet[sheet_time_row][i].value)
     answer.append(distant(sheet[line][i].value))
     return answer
 
@@ -76,7 +81,7 @@ def answer_evening(answer, user, i):
 def answer_day(answer, user, i):
     line = groups[user['group']]
     answer.append(sheet[line][i].value)
-    answer.append(sheet[3][i].value)
+    answer.append(sheet[sheet_time_row][i].value)
     answer = distant(answer, sheet[line][i].value)
     while sheet[groups[user['group']]][i + 1].value is None:
         i = i + 1
@@ -85,7 +90,7 @@ def answer_day(answer, user, i):
     else:
         answer.append('next lesson:')
     answer.append(sheet[line][i + 1].value)
-    answer.append(sheet[3][i + 1].value)
+    answer.append(sheet[sheet_time_row][i + 1].value)
     answer = distant(answer, sheet[line][i].value)
     return answer
 
@@ -95,9 +100,9 @@ def main(group):
     answer = []
     if user['time'] > 18 and user['day'] == 6 or user['day'] == 7:
         answer = answer_weekend(answer, user)
-    for i in range(2, len(table)):
-        if table[i][1] == user['day']:
-            if table[i][0] >= user['time']:
+    for i in range(first_column, len(table)):
+        if table[i][day_row] == user['day']:
+            if table[i][time_row] >= user['time']:
                 answer = answer_day(answer, user, i)
                 break
             if user['time'] > 18:

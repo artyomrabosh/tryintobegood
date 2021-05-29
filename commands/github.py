@@ -2,7 +2,7 @@ import requests
 import config
 params = {"state": "open"}
 headers = {
-  'Authorization': f'token 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',
+  'Authorization': f'token ghp_C8SVmi2FjAmxHdu4uwCx6kdInwjZbH2nESs',
   'accept' : 'application/vnd.github.v3+json',
   'Content-Type' : 'application/json'
 }
