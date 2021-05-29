@@ -5,6 +5,7 @@
 + [Palindrome Linked List](#palindrome-linked-list)
 + [Merge Two Sorted Lists](#merge-two-sorted-lists)
 + [Remove Nth Node From End of List](#remove-nth-node-from-end-of-list)
++ [Merge k Sorted Lists](#merge-k-sorted-lists)
 <!---->
 ## Reverse Linked List
 
@@ -120,5 +121,27 @@ while (counter<n):
 first.next=second.next
 return head
 
+```
+
+## Merge k Sorted Lists
+
+https://leetcode.com/problems/merge-k-sorted-lists/
+
+```python
+def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists: return
+        result=[]
+    for i in lists:
+        while i:
+            result.append(i.val)
+            i=i.next
+    if not result: return
+    result.sort()
+    head=ListNode(result.pop(0))
+    m=head
+    while result:
+        m.next=ListNode(result.pop(0))
+        m=m.next
+    return head
 ```
 
