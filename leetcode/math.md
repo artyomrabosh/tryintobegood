@@ -7,6 +7,7 @@
 + [Fibonacci Number](#fibonacci-number)
 + [Largest Perimeter Triangle](#largest-perimeter-triangle)
 + [Sqrt(x)](#sqrtx)
++ [K Closest Points to Origin](#K Closest Points to Origin)
 <!---->
 ## Reverse Integer
 
@@ -141,5 +142,16 @@ num = 1
 while(num * num <= x):
     num += 1
 return num - 1
+
+```
+
+## K Closest Points to Origin
+
+https://leetcode.com/problems/k-closest-points-to-origin/
+
+```python
+def kClosest(self, points, k):
+    points.sort(key = lambda x : sqrt(x[0]**2 + x[1]**2))
+    return points[:k]
 
 ```
