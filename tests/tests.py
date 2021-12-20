@@ -13,7 +13,7 @@ tests = {
 class TestStringMethods(unittest.TestCase):
     def test_distant(self):
         self.assertEqual(list(tests.values()), [main.distant(key) for key in tests])
-        self.assertEqual("", main.distant("Я люблю азербайджан"))
+        self.assertEqual("", main.distant("Я"))
 
 
 
