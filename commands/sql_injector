@@ -1,0 +1,24 @@
+import sqlite3
+
+
+def delete_all(sql):
+    sql.execute("DELETE FROM users")
+
+create_users_table = """
+CREATE TABLE IF NOT EXISTS users (
+  user_id INTEGER,
+  number TEXT
+);
+"""
+
+db=sqlite3.connect("../users.db", check_same_thread=False)
+sql=db.cursor()
+
+#delete_all(sql)
+
+#sql.execute("""SELECT * FROM users""")        # проверка на регистрациб
+for item in sql.execute("""SELECT * FROM users""")    :
+    print(item)
+
+db.commit()
+db.close()
